@@ -1,0 +1,4 @@
+.fullHeader {
+  display: flex;
+  flex-direction: row;
+}

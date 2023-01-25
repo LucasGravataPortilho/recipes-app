@@ -1,7 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import sendLogin from '../redux/actions';
 
 class Login extends React.Component {
   state = {
@@ -20,8 +18,6 @@ class Login extends React.Component {
     const minTextPassword = 7;
     const textEmail = /\S+@\S+\.\S+/;
     const isButtonDisabled = textEmail.test(email) && password.length >= minTextPassword;
-    // console.log(password, email);
-    // console.log(textEmail.test(email) && password.length >= minTextPassword);
     this.setState({
       isLoginButtonDisabled: !isButtonDisabled,
     });
@@ -29,8 +25,7 @@ class Login extends React.Component {
 
   handleClickButton = (event) => {
     event.preventDefault();
-    const { dispatch, history } = this.props;
-    dispatch(sendLogin(this.state));
+    const { history } = this.props;
     const { email } = this.state;
     const user = { email };
     localStorage.setItem('user', JSON.stringify(user));
@@ -70,7 +65,6 @@ class Login extends React.Component {
           onClick={ this.handleClickButton }
         >
           Entrar
-
         </button>
       </form>
     );
@@ -78,15 +72,9 @@ class Login extends React.Component {
 }
 
 Login.propTypes = {
-  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
 };
 
-const mapStateToProps = (globalState) => ({
-  email: globalState.login.email,
-  password: globalState.login.password,
-});
-
-export default connect(mapStateToProps)(Login);
+export default Login;

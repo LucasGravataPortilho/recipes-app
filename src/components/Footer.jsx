@@ -6,10 +6,10 @@ function Footer() {
   return (
     <footer data-testid="footer">
       <button type="button" onClick={ () => console.log('drink') }>
-        <img src={ DrinkIcon } alt="drink" />
+        <img src={ DrinkIcon } alt="drink" data-testid="drinks-top-btn" />
       </button>
       <button type="button" onClick={ () => console.log('meal') }>
-        <img src={ MealIcon } alt="meal" />
+        <img src={ MealIcon } alt="meal" data-testid="meals-top-btn" />
       </button>
     </footer>
   );

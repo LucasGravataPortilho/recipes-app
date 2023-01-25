@@ -9,11 +9,11 @@ function Header({ title }) {
   return (
     <header className="fullHeader">
       <button type="button" onClick={ () => console.log('profile') }>
-        <img src={ ProfileIcon } alt="React Logo" />
+        <img src={ ProfileIcon } alt="React Logo" data-testid="profile-top-btn" />
       </button>
       <h2 data-testid="page-title">{title}</h2>
       <button type="button" onClick={ () => setBar(!searchBar) }>
-        <img src={ SearchIcon } alt="React Logo" />
+        <img src={ SearchIcon } alt="React Logo" data-testid="search-top-btn" />
       </button>
       {(searchBar) ? (<input type="text" data-testid="search-input" />) : ('')}
     </header>

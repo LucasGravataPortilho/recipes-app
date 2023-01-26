@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 function SearchBar() {
   const [inputSearch, setinputSearch] = useState('');
@@ -24,6 +24,7 @@ function SearchBar() {
 
   const handleChange = ({ target }) => {
     setinputSearch(target.value);
+    console.log(target.value.length);
   };
 
   const handleButtonSearch = () => {
@@ -36,12 +37,19 @@ function SearchBar() {
     }
   };
 
+  useEffect(() => {
+    if (document.getElementById('first-letter').checked && inputSearch.length > 1) {
+      global.alert('Your search must have only 1 (one) character');
+    }
+  });
+
   return (
 
     <>
       <div>
         <input
           type="text"
+          data-testid="search-input"
           placeholder="Search"
           value={ inputSearch }
           onChange={ handleChange }

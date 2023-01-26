@@ -1,0 +1,8 @@
+.AllCards {
+  display: flex;
+  flex-flow: wrap;
+}
+
+.card {
+  width: 100px;
+}

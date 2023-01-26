@@ -36,8 +36,8 @@ function Header({ title }) {
           <img src={ SearchIcon } alt="React Logo" data-testid="search-top-btn" />
         </button>) : ('')}
 
-      {(searchBar) ? (<input type="text" data-testid="search-input" />) : ('')}
-      <SearchBar />
+      {(searchBar) ? (<SearchBar />) : ('')}
+
     </header>
   );
 }

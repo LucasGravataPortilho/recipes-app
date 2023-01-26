@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { getDrinks } from '../services/api';
 
 function SearchBar() {
   const [inputSearch, setinputSearch] = useState('');
@@ -30,10 +31,13 @@ function SearchBar() {
   const handleButtonSearch = () => {
     if (document.getElementById('ingredient').checked) {
       fetchIngredientAPI();
+      const teste = getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputSearch}`);
     } else if (document.getElementById('name').checked) {
       fetchNameAPI();
+      const teste1 = getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputSearch}`);
     } else if (document.getElementById('first-letter').checked) {
       fetchFirstLetterAPI();
+      const teste2 = getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputSearch}`);
     }
   };
 

@@ -1,25 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { getMeals } from '../services/api';
+import RecipesContext from '../context/RecipesContext';
 
 function Meals() {
-  const [recipes, setRecipes] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const { recipes, getR, categories, getC } = useContext(RecipesContext);
   const [filtro, setFiltro] = useState('');
-
-  async function chamadasMeal() {
-    const comida = await getMeals('https://www.themealdb.com/api/json/v1/1/search.php?s=');
-    setRecipes(comida);
-  }
-
-  async function chamadasCategoria() {
-    const cat = await getMeals('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
-    setCategories(cat);
-  }
+  const key = 'meals';
+  const urlGeral = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+  const urlCategorias = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
 
   useEffect(() => {
-    chamadasMeal();
-    chamadasCategoria();
+    getR(key, urlGeral);
+    getC(key, urlCategorias);
   }, []);
 
   function makeCards() {
@@ -52,11 +44,10 @@ function Meals() {
   async function categoryList({ target }) {
     const { value } = target;
     if (value === filtro) {
-      chamadasMeal();
+      getR(key, urlGeral);
       setFiltro('');
     } else {
-      const data = await getMeals(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${target.value}`);
-      setRecipes(data);
+      getR(key, `https://www.themealdb.com/api/json/v1/1/filter.php?c=${target.value}`);
       setFiltro(value);
     }
   }
@@ -88,7 +79,7 @@ function Meals() {
         <button
           type="button"
           data-testid="All-category-filter"
-          onClick={ chamadasMeal }
+          onClick={ () => getR(key, urlGeral) }
         >
           All
         </button>

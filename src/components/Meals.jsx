@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getMealCategoryList, getMeals } from '../services/api';
+import { getMeals } from '../services/api';
 
 function Meals() {
   const [recipes, setRecipes] = useState([]);
@@ -55,7 +55,7 @@ function Meals() {
       chamadasMeal();
       setFiltro('');
     } else {
-      const data = await getMealCategoryList(target.value);
+      const data = await getMeals(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${target.value}`);
       setRecipes(data);
       setFiltro(value);
     }

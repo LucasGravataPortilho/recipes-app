@@ -31,13 +31,14 @@ function SearchBar() {
   const handleButtonSearch = () => {
     if (document.getElementById('ingredient').checked) {
       fetchIngredientAPI();
-      const teste = getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputSearch}`);
+      getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputSearch}`);
+      console.log(a);
     } else if (document.getElementById('name').checked) {
       fetchNameAPI();
-      const teste1 = getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputSearch}`);
+      getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputSearch}`);
     } else if (document.getElementById('first-letter').checked) {
       fetchFirstLetterAPI();
-      const teste2 = getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputSearch}`);
+      getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${inputSearch}`);
     }
   };
 
@@ -48,7 +49,6 @@ function SearchBar() {
   });
 
   return (
-
     <>
       <div>
         <input

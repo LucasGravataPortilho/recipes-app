@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getDrinkCategoryList, getDrinks } from '../services/api';
+import { getDrinks } from '../services/api';
 
 function Drinks() {
   const [recipes, setRecipes] = useState([]);
@@ -55,7 +55,7 @@ function Drinks() {
       chamadasDrink();
       setFiltro('');
     } else {
-      const data = await getDrinkCategoryList(target.value);
+      const data = await getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${target.value}`);
       setRecipes(data);
       setFiltro(value);
     }

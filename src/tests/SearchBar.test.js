@@ -72,7 +72,7 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
   });
 
   it('Testa se ao buscar por um ingrediente inexistente, retorna o alerta', () => {
-    jest.spyOn(window, 'alert').mockImplementation(() => {});
+    jest.spyOn(window, 'alert');
     renderWithRouterAndRedux(<Recipes />);
     const buttonSearch = screen.getByTestId('search-top-btn');
     userEvent.click(buttonSearch);

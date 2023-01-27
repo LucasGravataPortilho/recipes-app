@@ -32,7 +32,6 @@ function SearchBar() {
     if (document.getElementById('ingredient').checked) {
       fetchIngredientAPI();
       getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${inputSearch}`);
-      console.log(a);
     } else if (document.getElementById('name').checked) {
       fetchNameAPI();
       getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${inputSearch}`);

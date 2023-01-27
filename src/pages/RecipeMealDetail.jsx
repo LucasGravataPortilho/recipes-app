@@ -7,15 +7,15 @@ function RecipeMealDetail() {
   const [video, setVideo] = useState('');
   const { id } = useParams();
 
-  async function chamadaMeal() {
-    const m = await getMeals(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
-    setMeal(m[0]);
-    setVideo(m[0].strYoutube);
-  }
-
   useEffect(() => {
+    async function chamadaMeal() {
+      const m = await getMeals(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+      setMeal(m[0]);
+      setVideo(m[0].strYoutube);
+    }
+
     chamadaMeal();
-  }, []);
+  }, [id]);
 
   function createIngredients() {
     const ingredientValues = Object.values(meal).filter(

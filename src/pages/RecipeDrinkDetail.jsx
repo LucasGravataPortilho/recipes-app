@@ -7,16 +7,16 @@ function RecipeDrinkDetail() {
   const [video, setVideo] = useState('');
   const { id } = useParams();
 
-  async function chamadaDrink() {
-    const d = await getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
-    setDrink(d[0]);
-    console.log(d[0]);
-    setVideo(d[0].strVideo);
-  }
-
   useEffect(() => {
+    async function chamadaDrink() {
+      const d = await getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`);
+      setDrink(d[0]);
+      console.log(d[0]);
+      setVideo(d[0].strVideo);
+    }
+
     chamadaDrink();
-  }, []);
+  }, [id]);
 
   function createIngredients() {
     const ingredientValues = Object.values(drink).filter(

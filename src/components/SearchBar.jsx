@@ -26,7 +26,7 @@ function SearchBar() {
       } else {
         global.alert('Your search must have only 1 (one) character');
       }
-    }
+    } else { global.alert('escolha uma opção'); }
   };
 
   return (

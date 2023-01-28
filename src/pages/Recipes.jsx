@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import Drinks from '../components/Drinks';
 import Footer from '../components/Footer';
@@ -18,7 +18,7 @@ function Recipes() {
     setMeal(location.pathname === '/meals');
   }, [location]);
 
-  async function searchR(type, url) {
+  const searchR = useCallback(async (type, url) => {
     const response = await fetch(url);
     const json = await response.json();
 
@@ -33,17 +33,12 @@ function Recipes() {
     } else {
       setRecipes(json[type]);
     }
-  }
+  }, [history, meal]);
 
   async function getR(type, url) {
     const response = await fetch(url);
     const json = await response.json();
-
-    if (json[type] === null) {
-      global.alert('Sorry, we haven\'t found any recipes for these filters.');
-    } else {
-      setRecipes(json[type]);
-    }
+    setRecipes(json[type]);
   }
 
   async function getC(type, url) {
@@ -60,7 +55,7 @@ function Recipes() {
       categories,
       getC,
     }),
-    [recipes, categories],
+    [recipes, categories, searchR],
   );
 
   return (

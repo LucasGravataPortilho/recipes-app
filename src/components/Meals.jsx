@@ -10,9 +10,11 @@ function Meals() {
   const urlCategorias = 'https://www.themealdb.com/api/json/v1/1/list.php?c=list';
 
   useEffect(() => {
-    getR(key, urlGeral);
-    getC(key, urlCategorias);
-  }, []);
+    if (recipes.length === 0) {
+      getR(key, urlGeral);
+      getC(key, urlCategorias);
+    }
+  }, [recipes, getR, getC]);
 
   function makeCards() {
     const maximo = 12;

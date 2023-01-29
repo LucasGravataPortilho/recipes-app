@@ -5,8 +5,8 @@ import Recipes from './pages/Recipes';
 import Profile from './pages/Profile';
 import DoneRecipes from './pages/DoneRecipes';
 import FavoriteRecipes from './pages/FavoriteRecipes';
-import RecipeMealDetail from './pages/RecipeMealDetail';
-import RecipeDrinkDetail from './pages/RecipeDrinkDetail';
+import RecipeInProgress from './pages/RecipeInProgress';
+import RecipeDetails from './pages/RecipeDetails';
 
 function App() {
   return (
@@ -21,12 +21,22 @@ function App() {
         <Route
           exact
           path="/meals/:id"
-          render={ (props) => <RecipeMealDetail { ...props } /> }
+          render={ (props) => <RecipeDetails { ...props } /> }
         />
         <Route
           exact
           path="/drinks/:id"
-          render={ (props) => <RecipeDrinkDetail { ...props } /> }
+          render={ (props) => <RecipeDetails { ...props } /> }
+        />
+        <Route
+          exact
+          path="/meals/:id/in-progress"
+          render={ (props) => <RecipeInProgress { ...props } /> }
+        />
+        <Route
+          exact
+          path="/drinks/:id/in-progress"
+          render={ (props) => <RecipeInProgress { ...props } /> }
         />
       </Switch>
     </div>

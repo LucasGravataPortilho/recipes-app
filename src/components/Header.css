@@ -1,4 +1,21 @@
-.fullHeader {
+.base {
+  align-items: center;
   display: flex;
   flex-direction: row;
+  height: 50px;
+  justify-content: center;
+}
+
+.fullHeader {
+  background-color: lightblue;
+  border-bottom: 1px black solid;
+  padding: 5px;
+}
+
+.search-bar {
+  display: flex;
+}
+
+.buscar {
+  margin-left: 25px;
 }

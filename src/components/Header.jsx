@@ -26,16 +26,16 @@ function Header({ title }) {
   return (
 
     <header className="fullHeader">
-
-      <button type="button" onClick={ profileRedirect } id="profile">
-        <img src={ ProfileIcon } alt="React Logo" data-testid="profile-top-btn" />
-      </button>
-      <h2 data-testid="page-title">{title}</h2>
-      {(botaoDisponivel) ? (
-        <button type="button" onClick={ () => setBar(!searchBar) }>
-          <img src={ SearchIcon } alt="React Logo" data-testid="search-top-btn" />
-        </button>) : ('')}
-
+      <div className="base">
+        <button type="button" onClick={ profileRedirect } id="profile">
+          <img src={ ProfileIcon } alt="React Logo" data-testid="profile-top-btn" />
+        </button>
+        <h2 data-testid="page-title" id="page-title">{title}</h2>
+        {(botaoDisponivel) ? (
+          <button type="button" onClick={ () => setBar(!searchBar) }>
+            <img src={ SearchIcon } alt="React Logo" data-testid="search-top-btn" />
+          </button>) : ('')}
+      </div>
       {(searchBar) ? (<SearchBar />) : ('')}
 
     </header>

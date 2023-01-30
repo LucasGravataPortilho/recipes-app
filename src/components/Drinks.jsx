@@ -1,26 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { getDrinks } from '../services/api';
+import RecipesContext from '../context/RecipesContext';
 
 function Drinks() {
-  const [recipes, setRecipes] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const { recipes, getR, categories, getC } = useContext(RecipesContext);
   const [filtro, setFiltro] = useState('');
-
-  async function chamadasDrink() {
-    const dr = await getDrinks('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
-    setRecipes(dr);
-  }
-
-  async function chamadasCategoria() {
-    const cat = await getDrinks('https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list');
-    setCategories(cat);
-  }
+  const key = 'drinks';
+  const urlGeral = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  const urlCategorias = 'https://www.thecocktaildb.com/api/json/v1/1/list.php?c=list';
 
   useEffect(() => {
-    chamadasDrink();
-    chamadasCategoria();
-  }, []);
+    if (recipes.length === 0) {
+      getR(key, urlGeral);
+      getC(key, urlCategorias);
+    }
+  }, [recipes, getR, getC]);
 
   function makeCards() {
     const maximo = 12;
@@ -52,11 +46,10 @@ function Drinks() {
   async function categoryList({ target }) {
     const { value } = target;
     if (value === filtro) {
-      chamadasDrink();
+      getR(key, urlGeral);
       setFiltro('');
     } else {
-      const data = await getDrinks(`https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${target.value}`);
-      setRecipes(data);
+      getR(key, `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${target.value}`);
       setFiltro(value);
     }
   }
@@ -88,12 +81,12 @@ function Drinks() {
         <button
           type="button"
           data-testid="All-category-filter"
-          onClick={ chamadasDrink }
+          onClick={ () => getR(key, urlGeral) }
         >
           All
         </button>
       </div>
-      <div className="AllCards">
+      <div className="AllCards" data-testid="all-cards">
         {makeCards()}
       </div>
     </div>

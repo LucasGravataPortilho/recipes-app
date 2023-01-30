@@ -3,7 +3,6 @@ import { MemoryRouter } from 'react-router-dom/cjs/react-router-dom';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import renderWithRouterAndRedux from './renderWith';
-import Recipes from '../pages/Recipes';
 import App from '../App';
 
 const idButtonSearch = ('search-top-btn');
@@ -13,7 +12,11 @@ const idNameSearch = 'name-search-radio';
 
 describe('Testa se a página de Recipes é exibida corretamente', () => {
   it('Testa se possui um botão "search" na tela', () => {
-    renderWithRouterAndRedux(<Recipes />);
+    renderWithRouterAndRedux(
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <App />
+      </MemoryRouter>,
+    );
     const buttonSearch = screen.getByTestId(idButtonSearch);
     userEvent.click(buttonSearch);
 
@@ -28,7 +31,11 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
   });
 
   it('Testa se faz a busca pelo ingrediente corretamente', () => {
-    renderWithRouterAndRedux(<Recipes />);
+    renderWithRouterAndRedux(
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <App />
+      </MemoryRouter>,
+    );
     const buttonSearch = screen.getByTestId(idButtonSearch);
     userEvent.click(buttonSearch);
 
@@ -43,7 +50,11 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
   });
 
   it('Testa se faz a busca somente com as duas primeira letras do ingrediente', async () => {
-    renderWithRouterAndRedux(<Recipes />);
+    renderWithRouterAndRedux(
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <App />
+      </MemoryRouter>,
+    );
     const buttonSearch = screen.getByTestId(idButtonSearch);
     userEvent.click(buttonSearch);
 
@@ -58,7 +69,11 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
   });
 
   it('Testa se faz a busca somente com a primeira letra do ingrediente', () => {
-    renderWithRouterAndRedux(<Recipes />);
+    renderWithRouterAndRedux(
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <App />
+      </MemoryRouter>,
+    );
     const buttonSearch = screen.getByTestId(idButtonSearch);
     userEvent.click(buttonSearch);
 
@@ -74,7 +89,11 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
 
   it('Testa se ao buscar por um ingrediente inexistente, retorna o alerta', async () => {
     const alertMock = jest.spyOn(window, 'alert').mockImplementation();
-    renderWithRouterAndRedux(<Recipes />);
+    renderWithRouterAndRedux(
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <App />
+      </MemoryRouter>,
+    );
     const buttonSearch = screen.getByTestId(idButtonSearch);
     userEvent.click(buttonSearch);
 
@@ -91,7 +110,11 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
 
   it('Testa se ao buscar sem parametro, retorna o alerta', async () => {
     const alertMock = jest.spyOn(window, 'alert').mockImplementation();
-    renderWithRouterAndRedux(<Recipes />);
+    renderWithRouterAndRedux(
+      <MemoryRouter initialEntries={ ['/meals'] }>
+        <App />
+      </MemoryRouter>,
+    );
     const buttonSearch = screen.getByTestId(idButtonSearch);
     userEvent.click(buttonSearch);
 
@@ -101,7 +124,11 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
   });
 
   it('Testa se ao buscar uma bebida exatamente, redireciona para sua pagina', async () => {
-    const { history } = renderWithRouterAndRedux(<Recipes />);
+    renderWithRouterAndRedux(
+      <MemoryRouter initialEntries={ ['/drinks'] }>
+        <App />
+      </MemoryRouter>,
+    );
     const buttonSearch = screen.getByTestId(idButtonSearch);
     userEvent.click(buttonSearch);
 
@@ -114,7 +141,7 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
     const filterButton = screen.getByTestId(idFilterButton);
     userEvent.click(filterButton);
 
-    await waitFor(() => expect(history.location.pathname).toBe('/drinks/13501'));
+    await waitFor(() => expect(screen.getByTestId('recipe-title').innerHTML).toBe('ABC'));
   });
 
   it('Testa se ao buscar uma comida exatamente, redireciona para sua pagina', async () => {

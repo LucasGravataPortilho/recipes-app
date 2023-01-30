@@ -9,6 +9,7 @@ function Footer() {
 
   function buttonRedirect(path) {
     history.push(path);
+    window.location.reload();
   }
 
   return (

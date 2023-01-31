@@ -11,7 +11,6 @@ function RecipeDetails() {
   const [recipe, setRecipe] = useState('');
   const [video, setVideo] = useState('');
   const location = useLocation();
-  const [continueRecipe, setContinueRecipe] = useState(false);
 
   const setVariables = useCallback(() => {
     const path = location.pathname.split('/');
@@ -44,34 +43,34 @@ function RecipeDetails() {
     requisicaoAPI();
   }, [setVariables, requisicaoAPI]);
 
-  // useEffect(() => {
-  //   const recipesInProgress = { drinks: {}, meals: {} };
-  //   const path = location.pathname.split('/')[2];
-  //   localStorage.setItem('inProgressRecipes', JSON.stringify(recipesInProgress));
-  //   const obj = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  //   if (Object.keys(obj.meals)
-  //     .includes(path) || Object.keys(obj.drinks)
-  //     .includes(path)) { setContinueRecipe(true); }
-  // }, [location.pathname]);
-
   function isInProgress() {
-    const lsOld = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (lsOld !== null) {
-      setContinueRecipe(true);
-    } else {
-      const newLS = { drinks: {}, meals: {} }; setLS(newLS);
-      localStorage.setItem('inProgressRecipes', JSON.stringify(newLS));
+    const path = location.pathname.split('/');
+    const type = path[1];
+    const pathId = path[2];
+
+    let inProgress = false;
+    const inProgressRecipes = JSON.parse(
+      localStorage.getItem('inProgressRecipes'),
+    );
+    if (inProgressRecipes) {
+      Object.keys(inProgressRecipes[type]).forEach((crrId) => {
+        if (crrId === pathId) {
+          inProgress = true;
+        }
+      });
     }
+
+    return inProgress;
   }
 
   function createIngredients() {
-    const ingredientValues = Object.values(recipe).filter(
-      (e, i) => (Object.keys(recipe)[i].includes('Ingredient')),
-    );
+    const ingredientValues = Object.values(recipe).filter((e, i) => Object
+      .keys(recipe)[i]
+      .includes('Ingredient'));
 
-    const measureValues = Object.values(recipe).filter(
-      (e, i) => (Object.keys(recipe)[i].includes('Measure')),
-    );
+    const measureValues = Object.values(recipe).filter((e, i) => Object
+      .keys(recipe)[i]
+      .includes('Measure'));
 
     const ingredients = ingredientValues.map((e, i) => {
       if (e !== '' && e !== null) {
@@ -82,7 +81,7 @@ function RecipeDetails() {
         );
         return ingredient;
       }
-      return ('');
+      return '';
     });
     return ingredients;
   }
@@ -95,9 +94,7 @@ function RecipeDetails() {
     const match = video.match(regExp);
     const length = 11;
 
-    return (match && match[2].length === length)
-      ? match[2]
-      : null;
+    return match && match[2].length === length ? match[2] : null;
   }
 
   function createVideo() {
@@ -109,7 +106,8 @@ function RecipeDetails() {
         width="300"
         height="270"
         src={ `//www.youtube.com/embed/${videoId}` }
-      />);
+      />
+    );
 
     return iframeMarkup;
   }
@@ -128,20 +126,16 @@ function RecipeDetails() {
       />
       <h1 data-testid="recipe-title">{recipe[`str${capitalKey}`]}</h1>
       <h4 data-testid="recipe-category">
-        {(key === 'meals') ? (recipe.strCategory) : (recipe.strAlcoholic)}
+        {key === 'meals' ? recipe.strCategory : recipe.strAlcoholic}
       </h4>
-      { createIngredients() }
+      {createIngredients()}
       <p data-testid="instructions">{recipe.strInstructions}</p>
-      { createVideo() }
+      {createVideo()}
       <Recomendations type={ key } />
       <div className="padding" />
 
-      <button
-        className="start"
-        data-testid="start-recipe-btn"
-      >
+      <button className="start" data-testid="start-recipe-btn">
         {isInProgress() ? 'Continue Recipe' : 'Start Recipe'}
-
       </button>
     </div>
   );

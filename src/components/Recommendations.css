@@ -1,0 +1,22 @@
+.start {
+  bottom: 0;
+  position: fixed;
+}
+
+.container {
+  display: flex;
+  overflow-x: auto;
+}
+
+.container img {
+  margin-right: 15px;
+  width: 50vw;
+}
+
+.container::-webkit-scrollbar {
+  display: none;
+}
+
+.padding {
+  margin-bottom: 15px;
+}

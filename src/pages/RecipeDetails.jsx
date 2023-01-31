@@ -1,5 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
+import Recomendations from '../components/Recommendations';
+import '../components/Recommendations.css';
 
 function RecipeDetails() {
   const [key, setKey] = useState();
@@ -106,6 +108,14 @@ function RecipeDetails() {
       { createIngredients() }
       <p data-testid="instructions">{recipe.strInstructions}</p>
       { createVideo() }
+      <Recomendations type={ key } />
+      <div className="padding" />
+      <button
+        className="start"
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+      </button>
     </div>
   );
 }

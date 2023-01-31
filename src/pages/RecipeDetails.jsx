@@ -11,6 +11,7 @@ function RecipeDetails() {
   const [recipe, setRecipe] = useState('');
   const [video, setVideo] = useState('');
   const location = useLocation();
+  const [continueRecipe, setContinueRecipe] = useState(false);
 
   const setVariables = useCallback(() => {
     const path = location.pathname.split('/');
@@ -42,6 +43,26 @@ function RecipeDetails() {
     setVariables();
     requisicaoAPI();
   }, [setVariables, requisicaoAPI]);
+
+  // useEffect(() => {
+  //   const recipesInProgress = { drinks: {}, meals: {} };
+  //   const path = location.pathname.split('/')[2];
+  //   localStorage.setItem('inProgressRecipes', JSON.stringify(recipesInProgress));
+  //   const obj = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //   if (Object.keys(obj.meals)
+  //     .includes(path) || Object.keys(obj.drinks)
+  //     .includes(path)) { setContinueRecipe(true); }
+  // }, [location.pathname]);
+
+  function isInProgress() {
+    const lsOld = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (lsOld !== null) {
+      setContinueRecipe(true);
+    } else {
+      const newLS = { drinks: {}, meals: {} }; setLS(newLS);
+      localStorage.setItem('inProgressRecipes', JSON.stringify(newLS));
+    }
+  }
 
   function createIngredients() {
     const ingredientValues = Object.values(recipe).filter(
@@ -93,6 +114,10 @@ function RecipeDetails() {
     return iframeMarkup;
   }
 
+  // const handleStartRecipe = () => {
+
+  // };
+
   return (
     <div>
       <img
@@ -110,11 +135,13 @@ function RecipeDetails() {
       { createVideo() }
       <Recomendations type={ key } />
       <div className="padding" />
+
       <button
         className="start"
         data-testid="start-recipe-btn"
       >
-        Start Recipe
+        {isInProgress() ? 'Continue Recipe' : 'Start Recipe'}
+
       </button>
     </div>
   );

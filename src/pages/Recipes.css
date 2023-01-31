@@ -1,6 +1,7 @@
 .AllCards {
   display: flex;
   flex-flow: wrap;
+  padding-bottom: 50px;
 }
 
 .card {

@@ -109,6 +109,13 @@ function RecipeDetails() {
       <p data-testid="instructions">{recipe.strInstructions}</p>
       { createVideo() }
       <Recomendations type={ key } />
+      <div className="padding" />
+      <button
+        className="start"
+        data-testid="start-recipe-btn"
+      >
+        Start Recipe
+      </button>
     </div>
   );
 }

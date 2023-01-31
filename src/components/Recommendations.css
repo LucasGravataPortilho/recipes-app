@@ -16,3 +16,7 @@
 .container::-webkit-scrollbar {
   display: none;
 }
+
+.padding {
+  margin-bottom: 15px;
+}

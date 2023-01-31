@@ -1,4 +1,10 @@
 footer {
   bottom: 0;
   position: fixed;
+  width: 100%;
+}
+
+.footer-content {
+  background-color: lightblue;
+  width: 100%;
 }

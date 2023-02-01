@@ -3,6 +3,6 @@ label {
   flex-direction: row;
 }
 
-.cross {
+label:has( input:checked ) {
   text-decoration: black solid line-through;
 }

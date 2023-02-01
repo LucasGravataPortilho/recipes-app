@@ -63,6 +63,7 @@ function Recomendations({ type }) {
       >
         {recipeList()}
       </div>
+
     </div>
 
   );

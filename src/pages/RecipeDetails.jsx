@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom';
+import { useLocation, Link } from 'react-router-dom/cjs/react-router-dom';
 import Recomendations from '../components/Recommendations';
 import '../components/Recommendations.css';
 
@@ -133,10 +133,15 @@ function RecipeDetails() {
       {createVideo()}
       <Recomendations type={ key } />
       <div className="padding" />
-
-      <button className="start" data-testid="start-recipe-btn">
-        {isInProgress() ? 'Continue Recipe' : 'Start Recipe'}
-      </button>
+      <Link
+        to={
+          `/${key === 'drinks' ? 'drinks' : 'meals'}/${id}/in-progress`
+        }
+      >
+        <button className="start" data-testid="start-recipe-btn">
+          {isInProgress() ? 'Continue Recipe' : 'Start Recipe'}
+        </button>
+      </Link>
     </div>
   );
 }

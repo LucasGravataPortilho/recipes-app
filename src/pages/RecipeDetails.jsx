@@ -2,6 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 import { useLocation, Link } from 'react-router-dom/cjs/react-router-dom';
 import Recomendations from '../components/Recommendations';
 import '../components/Recommendations.css';
+import './RecipeDetails.css';
 
 function RecipeDetails() {
   const [key, setKey] = useState();
@@ -112,9 +113,11 @@ function RecipeDetails() {
     return iframeMarkup;
   }
 
-  // const handleStartRecipe = () => {
-
-  // };
+  function toClipBoard({ target }) {
+    const link = `http://localhost:3000/${key}/${id}`;
+    navigator.clipboard.writeText(link);
+    target.innerHTML = 'Link copied!';
+  }
 
   return (
     <div>
@@ -142,6 +145,21 @@ function RecipeDetails() {
           {isInProgress() ? 'Continue Recipe' : 'Start Recipe'}
         </button>
       </Link>
+      <div className="buttons">
+        <button
+          type="button"
+          data-testid="share-btn"
+          onClick={ toClipBoard }
+        >
+          Compartilhar
+        </button>
+        <button
+          type="button"
+          data-testid="favorite-btn"
+        >
+          Favoritar
+        </button>
+      </div>
     </div>
   );
 }

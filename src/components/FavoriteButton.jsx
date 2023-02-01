@@ -69,7 +69,7 @@ function FavoriteButton({ receita, capital }) {
 }
 
 FavoriteButton.propTypes = {
-  recipe: PropTypes.shape(),
+  receita: PropTypes.shape(),
   capital: PropTypes.shape(),
 }.isRequired;
 

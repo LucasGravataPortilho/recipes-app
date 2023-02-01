@@ -3,6 +3,7 @@ import { useLocation } from 'react-router-dom/cjs/react-router-dom';
 import Checkboxes from '../components/Checkboxes';
 import FavoriteButton from '../components/FavoriteButton';
 import InProgressFinishButton from '../components/InProgressFinishButton';
+import ShareButton from '../components/ShareButton';
 import CheckboxesContext from '../context/checkboxesContext';
 import './RecipeinProgress.css';
 
@@ -82,12 +83,6 @@ function RecipeInProgress() {
     await setingredients(lista);
   }, [id, key, usedIngredients, lsAtual]);
 
-  function toClipboard({ target }) {
-    const link = `http://localhost:3000/${key}/${id}`;
-    navigator.clipboard.writeText(link);
-    target.innerHTML = 'Link copied!';
-  }
-
   const valor = useMemo(
     () => ({
       recipe,
@@ -121,13 +116,7 @@ function RecipeInProgress() {
         >
           Teste
         </button>
-        <button
-          type="button"
-          data-testid="share-btn"
-          onClick={ toClipboard }
-        >
-          Share
-        </button>
+        <ShareButton type={ key } identificacao={ id } />
         <FavoriteButton receita={ recipe } capital={ capitalKey } />
         <h3 data-testid="recipe-category">{recipe.strCategory}</h3>
         {(recipe !== {})

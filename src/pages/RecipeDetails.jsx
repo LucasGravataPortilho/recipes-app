@@ -1,5 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useLocation, Link } from 'react-router-dom/cjs/react-router-dom';
+import ShareButton from '../components/ShareButton';
+import FavoriteButton from '../components/FavoriteButton';
 import Recomendations from '../components/Recommendations';
 import '../components/Recommendations.css';
 import './RecipeDetails.css';
@@ -113,12 +115,6 @@ function RecipeDetails() {
     return iframeMarkup;
   }
 
-  function toClipBoard({ target }) {
-    const link = `http://localhost:3000/${key}/${id}`;
-    navigator.clipboard.writeText(link);
-    target.innerHTML = 'Link copied!';
-  }
-
   return (
     <div>
       <img
@@ -146,19 +142,8 @@ function RecipeDetails() {
         </button>
       </Link>
       <div className="buttons">
-        <button
-          type="button"
-          data-testid="share-btn"
-          onClick={ toClipBoard }
-        >
-          Compartilhar
-        </button>
-        <button
-          type="button"
-          data-testid="favorite-btn"
-        >
-          Favoritar
-        </button>
+        <ShareButton type={ key } identificacao={ id } />
+        <FavoriteButton receita={ recipe } capital={ capitalKey } />
       </div>
     </div>
   );

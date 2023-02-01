@@ -1,6 +1,7 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
 import Checkboxes from '../components/Checkboxes';
+import FavoriteButton from '../components/FavoriteButton';
 import InProgressFinishButton from '../components/InProgressFinishButton';
 import CheckboxesContext from '../context/checkboxesContext';
 import './RecipeinProgress.css';
@@ -65,7 +66,7 @@ function RecipeInProgress() {
     requisicaoAPI(url);
   }, [location, requisicaoAPI]);
 
-  const changeCheckbox = useCallback(({ target }) => {
+  const changeCheckbox = useCallback(async ({ target }) => {
     const { value } = target;
     let lista = usedIngredients;
 
@@ -78,7 +79,7 @@ function RecipeInProgress() {
     lsAtual[key][id] = lista;
     localStorage.setItem('inProgressRecipes', JSON.stringify(lsAtual));
 
-    setingredients(lista);
+    await setingredients(lista);
   }, [id, key, usedIngredients, lsAtual]);
 
   function toClipboard({ target }) {
@@ -127,7 +128,7 @@ function RecipeInProgress() {
         >
           Share
         </button>
-        <button type="button" data-testid="favorite-btn">Favorite</button>
+        <FavoriteButton receita={ recipe } capital={ capitalKey } />
         <h3 data-testid="recipe-category">{recipe.strCategory}</h3>
         {(recipe !== {})
           ? (

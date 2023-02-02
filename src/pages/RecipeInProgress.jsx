@@ -103,27 +103,10 @@ function RecipeInProgress() {
           src={ recipe[`str${capitalKey}Thumb`] }
         />
         <h1 data-testid="recipe-title">{recipe[`str${capitalKey}`]}</h1>
-        <button
-          type="button"
-          onClick={ () => {
-            console.log(key);
-            console.log(capitalKey);
-            console.log(id);
-            console.log(recipe);
-            console.log(lsAtual);
-            console.log(usedIngredients);
-          } }
-        >
-          Teste
-        </button>
         <ShareButton type={ key } identificacao={ id } />
         <FavoriteButton receita={ recipe } capital={ capitalKey } />
         <h3 data-testid="recipe-category">{recipe.strCategory}</h3>
-        {(recipe !== {})
-          ? (
-            <Checkboxes />
-          )
-          : ('')}
+        <Checkboxes />
         <p data-testid="instructions">{recipe.strInstructions}</p>
         <InProgressFinishButton />
       </div>

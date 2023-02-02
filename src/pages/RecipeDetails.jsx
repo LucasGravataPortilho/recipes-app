@@ -89,26 +89,14 @@ function RecipeDetails() {
     return ingredients;
   }
 
-  function getId() {
-    if (video === null || video === undefined) {
-      return video;
-    }
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = video.match(regExp);
-    const length = 11;
-
-    return match && match[2].length === length ? match[2] : null;
-  }
-
   function createVideo() {
-    const videoId = getId();
     const iframeMarkup = (
       <iframe
         title="youtube"
         data-testid="video"
         width="300"
         height="270"
-        src={ `//www.youtube.com/embed/${videoId}` }
+        src={ `//www.youtube.com/embed/${video}` }
       />
     );
 

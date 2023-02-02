@@ -120,11 +120,7 @@ function RecipeDetails() {
       {createVideo()}
       <Recomendations type={ key } />
       <div className="padding" />
-      <Link
-        to={
-          `/${key === 'drinks' ? 'drinks' : 'meals'}/${id}/in-progress`
-        }
-      >
+      <Link to={ `/${key === 'drinks' ? 'drinks' : 'meals'}/${id}/in-progress` }>
         <button className="start" data-testid="start-recipe-btn">
           {isInProgress() ? 'Continue Recipe' : 'Start Recipe'}
         </button>

@@ -2,7 +2,6 @@ import { useEffect, useState, useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom/cjs/react-router-dom';
 import Checkboxes from '../components/Checkboxes';
 import FavoriteButton from '../components/FavoriteButton';
-import InProgressFinishButton from '../components/InProgressFinishButton';
 import ShareButton from '../components/ShareButton';
 import CheckboxesContext from '../context/checkboxesContext';
 import './RecipeinProgress.css';
@@ -13,17 +12,20 @@ function RecipeInProgress() {
   const [id, setId] = useState();
   const [recipe, setRecipe] = useState({});
   const [allIngredients, setAllIngredients] = useState([]);
-  const [usedIngredients, setingredients] = useState(['']);
+  const [usedIngredients, setIngredients] = useState([]);
+  const [itemsIniciais, setInicial] = useState(0);
   const [lsAtual, setLS] = useState({});
   const location = useLocation();
+  const [finish, setFinish] = useState(false);
 
-  const setIngredientsList = useCallback(() => {
+  const setIngredientsList = useCallback(async () => {
     const ingredientValues = Object.values(recipe).filter(
       (e, i) => (Object.keys(recipe)[i].includes('Ingredient')),
     );
     const semVazio = ingredientValues.filter((e) => (e !== null) && (e !== ''));
-    setAllIngredients(semVazio);
-  }, [recipe]);
+    await setAllIngredients(semVazio);
+    setFinish(semVazio.length === itemsIniciais);
+  }, [recipe, itemsIniciais]);
 
   const requisicaoAPI = useCallback(async (url) => {
     try {
@@ -56,7 +58,8 @@ function RecipeInProgress() {
         lsOld[path[1]][path[2]] = [];
       }
       setLS(lsOld);
-      setingredients(lsOld[path[1]][path[2]]);
+      setIngredients(lsOld[path[1]][path[2]]);
+      setInicial(lsOld[path[1]][path[2]].length);
     } else {
       const newLS = { drinks: {}, meals: {} };
       newLS[path[1]][path[2]] = [];
@@ -67,7 +70,7 @@ function RecipeInProgress() {
     requisicaoAPI(url);
   }, [location, requisicaoAPI]);
 
-  const changeCheckbox = useCallback(async ({ target }) => {
+  const changeCheckbox = useCallback(({ target }) => {
     const { value } = target;
     let lista = usedIngredients;
 
@@ -80,8 +83,10 @@ function RecipeInProgress() {
     lsAtual[key][id] = lista;
     localStorage.setItem('inProgressRecipes', JSON.stringify(lsAtual));
 
-    await setingredients(lista);
-  }, [id, key, usedIngredients, lsAtual]);
+    setIngredients(lista);
+    setFinish(allIngredients.length === lista.length);
+    console.log(finish);
+  }, [id, key, usedIngredients, lsAtual, finish, allIngredients]);
 
   const valor = useMemo(
     () => ({
@@ -105,10 +110,12 @@ function RecipeInProgress() {
         <h1 data-testid="recipe-title">{recipe[`str${capitalKey}`]}</h1>
         <ShareButton type={ key } identificacao={ id } />
         <FavoriteButton receita={ recipe } capital={ capitalKey } />
+        <button type="button" data-testid="finish-recipe-btn" disabled={ !finish }>
+          Finish
+        </button>
         <h3 data-testid="recipe-category">{recipe.strCategory}</h3>
         <Checkboxes />
         <p data-testid="instructions">{recipe.strInstructions}</p>
-        <InProgressFinishButton />
       </div>
     </CheckboxesContext.Provider>
   );

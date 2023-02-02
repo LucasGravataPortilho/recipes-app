@@ -5,20 +5,22 @@ import { screen, waitFor } from '@testing-library/react';
 import App from '../App';
 import renderWithRouterAndRedux from './renderWith';
 
+const recipeTitleId = 'recipe-title';
+const favButtonId = 'favorite-btn';
+
 describe('Testa as paginas de Receita in progress', () => {
   it('Drinks', async () => {
-    const { history } = renderWithRouterAndRedux(
+    renderWithRouterAndRedux(
       <MemoryRouter initialEntries={ ['/drinks/17203/in-progress'] }>
         <App />
       </MemoryRouter>,
     );
 
-    await waitFor(() => expect(screen.getByTestId('recipe-title').innerHTML).toBe('Kir'));
+    await waitFor(() => expect(screen.getByTestId(recipeTitleId).innerHTML).toBe('Kir'));
 
-    const favorite = screen.getByTestId('favorite-btn');
+    const favorite = screen.getByTestId(favButtonId);
     userEvent.click(favorite);
-
-    history.push('/drinks/17203');
+    userEvent.click(favorite);
   });
 
   it('Meals', async () => {
@@ -45,18 +47,31 @@ describe('Testa as paginas de Receita in progress', () => {
 
     userEvent.click(checkboxes[4]);
   });
+
+  it('Meals - favorite button', async () => {
+    renderWithRouterAndRedux(
+      <MemoryRouter initialEntries={ ['/meals/53060/in-progress'] }>
+        <App />
+      </MemoryRouter>,
+    );
+
+    await waitFor(() => expect(screen.getByTestId(recipeTitleId).innerHTML).toBe('Burek'));
+
+    const favorite = screen.getByTestId(favButtonId);
+    userEvent.click(favorite);
+    userEvent.click(favorite);
+  });
 });
 
-describe('Testa as paginas de Receita details', () => {
-  it('Drinks', async () => {
-    const fakeLS = { drinks: { 17203: ['Creme de Cassis'] } };
-    await localStorage.setItem('inProgressRecipes', JSON.stringify(fakeLS));
+describe('Testa o favorite button', () => {
+  it('Pagina Recipe Details', async () => {
     renderWithRouterAndRedux(
       <MemoryRouter initialEntries={ ['/drinks/17203'] }>
         <App />
       </MemoryRouter>,
     );
 
-    await waitFor(() => expect(screen.getByTestId('favorite-btn')).toBeInTheDocument());
+    await waitFor(() => expect(screen.getByTestId(favButtonId)).toBeInTheDocument());
+    userEvent.click(screen.getByTestId(favButtonId));
   });
 });

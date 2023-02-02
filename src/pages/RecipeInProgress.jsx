@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom';
 import Checkboxes from '../components/Checkboxes';
 import FavoriteButton from '../components/FavoriteButton';
 import ShareButton from '../components/ShareButton';
@@ -15,8 +15,9 @@ function RecipeInProgress() {
   const [usedIngredients, setIngredients] = useState([]);
   const [itemsIniciais, setInicial] = useState(0);
   const [lsAtual, setLS] = useState({});
-  const location = useLocation();
   const [finish, setFinish] = useState(false);
+  const location = useLocation();
+  const history = useHistory();
 
   const setIngredientsList = useCallback(async () => {
     const ingredientValues = Object.values(recipe).filter(
@@ -85,8 +86,7 @@ function RecipeInProgress() {
 
     setIngredients(lista);
     setFinish(allIngredients.length === lista.length);
-    console.log(finish);
-  }, [id, key, usedIngredients, lsAtual, finish, allIngredients]);
+  }, [id, key, usedIngredients, lsAtual, allIngredients]);
 
   const valor = useMemo(
     () => ({
@@ -97,6 +97,29 @@ function RecipeInProgress() {
     }),
     [recipe, allIngredients, usedIngredients, changeCheckbox],
   );
+
+  function finishRecipe() {
+    const newRecipe = {
+      id: recipe[`id${capitalKey}`],
+      type: capitalKey.toLowerCase(),
+      nationality: (capitalKey === 'Meal') ? (recipe.strArea) : (''),
+      category: recipe.strCategory,
+      alcoholicOrNot: (capitalKey === 'Meal') ? ('') : (recipe.strAlcoholic),
+      name: recipe[`str${capitalKey}`],
+      image: recipe[`str${capitalKey}Thumb`],
+      doneDate: new Date(),
+      tags: (recipe.strTags === null) ? ([]) : (recipe.strTags.split(',')),
+    };
+
+    let lsDone = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (lsDone === null) {
+      lsDone = [];
+    }
+
+    lsDone.push(newRecipe);
+    localStorage.setItem('doneRecipes', JSON.stringify(lsDone));
+    history.push('/done-recipes');
+  }
 
   return (
     <CheckboxesContext.Provider value={ valor }>
@@ -110,7 +133,12 @@ function RecipeInProgress() {
         <h1 data-testid="recipe-title">{recipe[`str${capitalKey}`]}</h1>
         <ShareButton type={ key } identificacao={ id } />
         <FavoriteButton receita={ recipe } capital={ capitalKey } />
-        <button type="button" data-testid="finish-recipe-btn" disabled={ !finish }>
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          onClick={ finishRecipe }
+          disabled={ !finish }
+        >
           Finish
         </button>
         <h3 data-testid="recipe-category">{recipe.strCategory}</h3>

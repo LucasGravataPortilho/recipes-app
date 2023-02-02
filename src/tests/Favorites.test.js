@@ -9,6 +9,6 @@ describe('Testa se a página de Profile é exibida corretamente', () => {
     renderWithRouterAndRedux(<FavoriteRecipes />);
     const header = screen.getAllByRole('button');
 
-    expect(header).toBeInTheDocument();
+    expect(header.length).toBe(4);
   });
 });

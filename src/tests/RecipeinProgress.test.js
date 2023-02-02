@@ -7,6 +7,8 @@ import renderWithRouterAndRedux from './renderWith';
 
 const recipeTitleId = 'recipe-title';
 const favButtonId = 'favorite-btn';
+const finishID = 'finish-recipe-btn';
+const burekURL = '/meals/53060/in-progress';
 
 describe('Testa as paginas de Receita in progress', () => {
   it('Drinks', async () => {
@@ -25,12 +27,12 @@ describe('Testa as paginas de Receita in progress', () => {
 
   it('Meals', async () => {
     renderWithRouterAndRedux(
-      <MemoryRouter initialEntries={ ['/meals/53060/in-progress'] }>
+      <MemoryRouter initialEntries={ [burekURL] }>
         <App />
       </MemoryRouter>,
     );
 
-    await waitFor(() => expect(screen.getByTestId('recipe-title').innerHTML).toBe('Burek'));
+    await waitFor(() => expect(screen.getByTestId(recipeTitleId).innerHTML).toBe('Burek'));
 
     await waitFor(() => expect(screen.getAllByRole('checkbox')[0]).toBeInTheDocument());
     const checkboxes = screen.getAllByRole('checkbox');
@@ -42,15 +44,59 @@ describe('Testa as paginas de Receita in progress', () => {
     userEvent.click(checkboxes[4]);
     userEvent.click(checkboxes[5]);
 
-    const finish = screen.getByTestId('finish-recipe-btn');
-    await waitFor(() => expect(finish).not.toBeDisabled());
+    await waitFor(() => expect(screen.getByTestId(finishID)).not.toBeDisabled());
 
     userEvent.click(checkboxes[4]);
   });
 
+  it('Meals - Finish Recipe', async () => {
+    renderWithRouterAndRedux(
+      <MemoryRouter initialEntries={ [burekURL] }>
+        <App />
+      </MemoryRouter>,
+    );
+
+    await waitFor(() => expect(screen.getByTestId(recipeTitleId).innerHTML).toBe('Burek'));
+
+    await waitFor(() => expect(screen.getAllByRole('checkbox')[0]).toBeInTheDocument());
+    const checkboxes = screen.getAllByRole('checkbox');
+
+    userEvent.click(checkboxes[0]);
+    userEvent.click(checkboxes[1]);
+    userEvent.click(checkboxes[2]);
+    userEvent.click(checkboxes[3]);
+    userEvent.click(checkboxes[4]);
+    userEvent.click(checkboxes[5]);
+
+    await waitFor(() => setTimeout(1000));
+    userEvent.click(screen.getByTestId(finishID));
+  });
+
+  it('Drinks - Finish Recipe', async () => {
+    renderWithRouterAndRedux(
+      <MemoryRouter initialEntries={ ['/drinks/17222/in-progress'] }>
+        <App />
+      </MemoryRouter>,
+    );
+
+    await waitFor(() => expect(screen.getByTestId(recipeTitleId).innerHTML).toBe('A1'));
+
+    await waitFor(() => expect(screen.getAllByRole('checkbox')[0]).toBeInTheDocument());
+    const checkboxes = screen.getAllByRole('checkbox');
+
+    userEvent.click(checkboxes[0]);
+    userEvent.click(checkboxes[1]);
+    userEvent.click(checkboxes[2]);
+    userEvent.click(checkboxes[3]);
+
+    await waitFor(() => setTimeout(1000));
+    userEvent.click(screen.getByTestId(finishID));
+    await waitFor(() => setTimeout(1000));
+  });
+
   it('Meals - favorite button', async () => {
     renderWithRouterAndRedux(
-      <MemoryRouter initialEntries={ ['/meals/53060/in-progress'] }>
+      <MemoryRouter initialEntries={ [burekURL] }>
         <App />
       </MemoryRouter>,
     );

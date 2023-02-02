@@ -1,19 +1,27 @@
 import PropTypes from 'prop-types';
+import { useState } from 'react';
+import Share from '../images/shareIcon.svg';
 
 function ShareButton({ type, identificacao }) {
-  function toClipboard({ target }) {
+  const [copied, setCopied] = useState(false);
+
+  function toClipboard() {
     const link = `http://localhost:3000/${type}/${identificacao}`;
     navigator.clipboard.writeText(link);
-    target.innerHTML = 'Link copied!';
+    setCopied(true);
   }
+
   return (
-    <button
-      type="button"
-      data-testid="share-btn"
-      onClick={ toClipboard }
-    >
-      Share
-    </button>
+    <div>
+      <input
+        type="image"
+        alt="favorite"
+        data-testid="share-btn"
+        onClick={ toClipboard }
+        src={ Share }
+      />
+      {(copied) ? (<p>Link copied!</p>) : ('')}
+    </div>
   );
 }
 

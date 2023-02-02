@@ -18,6 +18,7 @@ function FavoriteButton({ receita, capital }) {
       oldLS.forEach((e) => {
         if (e.id === receita[`id${capital}`]) setFav(true);
       });
+      setLS(oldLS);
     }
   }, [receita, capital]);
 
@@ -49,10 +50,9 @@ function FavoriteButton({ receita, capital }) {
           image: receita.strMealThumb,
         };
       }
-      const add = lsAtual;
-      add.push(newFavorite);
-      setLS(add);
-      localStorage.setItem('favoriteRecipes', JSON.stringify(add));
+      lsAtual.push(newFavorite);
+      setLS(lsAtual);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(lsAtual));
     }
     setFav(!fav);
   }

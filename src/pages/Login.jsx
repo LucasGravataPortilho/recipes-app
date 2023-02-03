@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './Login.css';
 
 class Login extends React.Component {
   state = {
@@ -36,37 +37,41 @@ class Login extends React.Component {
     const { email, password, isLoginButtonDisabled } = this.state;
 
     return (
-      <form>
-        <h3>Insira seu Email:</h3>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={ email }
-          placeholder="Digite aqui seu email"
-          data-testid="email-input"
-          onChange={ this.handleChange }
-        />
+      <div className="form-login">
+        <form>
+          <h2>Sign in</h2>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            value={ email }
+            placeholder="Digite seu email"
+            data-testid="email-input"
+            onChange={ this.handleChange }
+            className="email-input"
+          />
 
-        <h3>Insira sua Senha:</h3>
-        <input
-          type="password"
-          id="password"
-          name="password"
-          value={ password }
-          placeholder="Digite aqui sua senha"
-          data-testid="password-input"
-          onChange={ this.handleChange }
-        />
-        <button
-          data-testid="login-submit-btn"
-          type="submit"
-          disabled={ isLoginButtonDisabled }
-          onClick={ this.handleClickButton }
-        >
-          Entrar
-        </button>
-      </form>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={ password }
+            placeholder="Digite sua senha"
+            data-testid="password-input"
+            onChange={ this.handleChange }
+            className="password-input"
+          />
+          <button
+            data-testid="login-submit-btn"
+            type="submit"
+            disabled={ isLoginButtonDisabled }
+            onClick={ this.handleClickButton }
+            className="button-login"
+          >
+            Entrar
+          </button>
+        </form>
+      </div>
     );
   }
 }

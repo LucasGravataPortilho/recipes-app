@@ -2,7 +2,7 @@ import React from 'react';
 import { MemoryRouter } from 'react-router-dom/cjs/react-router-dom';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import renderWithRouterAndRedux from './renderWith';
+import { renderWithRouter } from './renderWith';
 import App from '../App';
 
 const idButtonSearch = ('search-top-btn');
@@ -12,7 +12,7 @@ const idNameSearch = 'name-search-radio';
 
 describe('Testa se a página de Recipes é exibida corretamente', () => {
   it('Testa se possui um botão "search" na tela', () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/meals'] }>
         <App />
       </MemoryRouter>,
@@ -31,7 +31,7 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
   });
 
   it('Testa se faz a busca pelo ingrediente corretamente', () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/meals'] }>
         <App />
       </MemoryRouter>,
@@ -50,7 +50,7 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
   });
 
   it('Testa se faz a busca somente com as duas primeira letras do ingrediente', async () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/meals'] }>
         <App />
       </MemoryRouter>,
@@ -69,7 +69,7 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
   });
 
   it('Testa se faz a busca somente com a primeira letra do ingrediente', () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/meals'] }>
         <App />
       </MemoryRouter>,
@@ -89,7 +89,7 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
 
   it('Testa se ao buscar por um ingrediente inexistente, retorna o alerta', async () => {
     const alertMock = jest.spyOn(window, 'alert').mockImplementation();
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/meals'] }>
         <App />
       </MemoryRouter>,
@@ -110,7 +110,7 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
 
   it('Testa se ao buscar sem parametro, retorna o alerta', async () => {
     const alertMock = jest.spyOn(window, 'alert').mockImplementation();
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/meals'] }>
         <App />
       </MemoryRouter>,
@@ -124,7 +124,7 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
   });
 
   it('Testa se ao buscar uma bebida exatamente, redireciona para sua pagina', async () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/drinks'] }>
         <App />
       </MemoryRouter>,
@@ -145,7 +145,7 @@ describe('Testa se a página de Recipes é exibida corretamente', () => {
   });
 
   it('Testa se ao buscar uma comida exatamente, redireciona para sua pagina', async () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/meals'] }>
         <App />
       </MemoryRouter>,

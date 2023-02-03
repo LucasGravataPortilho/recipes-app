@@ -1,15 +1,17 @@
 import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 function Profile() {
-  const readObject = (key, defaultValue) => {
-    const object = localStorage.getItem(key);
-    return JSON.parse(object) || defaultValue;
-  };
-  const USER_KEY = 'user';
-  const getUser = () => readObject(USER_KEY, {});
-  const userEmail = getUser().email;
+  const [userEmail, setEmail] = useState('');
+
+  useEffect(() => {
+    const object = JSON.parse(localStorage.getItem('user'));
+    if (object !== null) {
+      setEmail(object.email);
+    }
+  }, []);
 
   return (
     <div>

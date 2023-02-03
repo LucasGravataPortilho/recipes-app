@@ -1,8 +1,8 @@
 import { useEffect, useState, useCallback, useMemo } from 'react';
-import { useLocation } from 'react-router-dom/cjs/react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom/cjs/react-router-dom';
 import Checkboxes from '../components/Checkboxes';
 import FavoriteButton from '../components/FavoriteButton';
-import InProgressFinishButton from '../components/InProgressFinishButton';
+import ShareButton from '../components/ShareButton';
 import CheckboxesContext from '../context/checkboxesContext';
 import './RecipeinProgress.css';
 
@@ -12,17 +12,21 @@ function RecipeInProgress() {
   const [id, setId] = useState();
   const [recipe, setRecipe] = useState({});
   const [allIngredients, setAllIngredients] = useState([]);
-  const [usedIngredients, setingredients] = useState(['']);
+  const [usedIngredients, setIngredients] = useState([]);
+  const [itemsIniciais, setInicial] = useState(0);
   const [lsAtual, setLS] = useState({});
+  const [finish, setFinish] = useState(false);
   const location = useLocation();
+  const history = useHistory();
 
-  const setIngredientsList = useCallback(() => {
+  const setIngredientsList = useCallback(async () => {
     const ingredientValues = Object.values(recipe).filter(
       (e, i) => (Object.keys(recipe)[i].includes('Ingredient')),
     );
     const semVazio = ingredientValues.filter((e) => (e !== null) && (e !== ''));
-    setAllIngredients(semVazio);
-  }, [recipe]);
+    await setAllIngredients(semVazio);
+    setFinish(semVazio.length === itemsIniciais);
+  }, [recipe, itemsIniciais]);
 
   const requisicaoAPI = useCallback(async (url) => {
     try {
@@ -55,7 +59,8 @@ function RecipeInProgress() {
         lsOld[path[1]][path[2]] = [];
       }
       setLS(lsOld);
-      setingredients(lsOld[path[1]][path[2]]);
+      setIngredients(lsOld[path[1]][path[2]]);
+      setInicial(lsOld[path[1]][path[2]].length);
     } else {
       const newLS = { drinks: {}, meals: {} };
       newLS[path[1]][path[2]] = [];
@@ -66,7 +71,7 @@ function RecipeInProgress() {
     requisicaoAPI(url);
   }, [location, requisicaoAPI]);
 
-  const changeCheckbox = useCallback(async ({ target }) => {
+  const changeCheckbox = useCallback(({ target }) => {
     const { value } = target;
     let lista = usedIngredients;
 
@@ -79,14 +84,9 @@ function RecipeInProgress() {
     lsAtual[key][id] = lista;
     localStorage.setItem('inProgressRecipes', JSON.stringify(lsAtual));
 
-    await setingredients(lista);
-  }, [id, key, usedIngredients, lsAtual]);
-
-  function toClipboard({ target }) {
-    const link = `http://localhost:3000/${key}/${id}`;
-    navigator.clipboard.writeText(link);
-    target.innerHTML = 'Link copied!';
-  }
+    setIngredients(lista);
+    setFinish(allIngredients.length === lista.length);
+  }, [id, key, usedIngredients, lsAtual, allIngredients]);
 
   const valor = useMemo(
     () => ({
@@ -98,6 +98,29 @@ function RecipeInProgress() {
     [recipe, allIngredients, usedIngredients, changeCheckbox],
   );
 
+  function finishRecipe() {
+    const newRecipe = {
+      id: recipe[`id${capitalKey}`],
+      type: capitalKey.toLowerCase(),
+      nationality: (capitalKey === 'Meal') ? (recipe.strArea) : (''),
+      category: recipe.strCategory,
+      alcoholicOrNot: (capitalKey === 'Meal') ? ('') : (recipe.strAlcoholic),
+      name: recipe[`str${capitalKey}`],
+      image: recipe[`str${capitalKey}Thumb`],
+      doneDate: new Date(),
+      tags: (recipe.strTags === null) ? ([]) : (recipe.strTags.split(',')),
+    };
+
+    let lsDone = JSON.parse(localStorage.getItem('doneRecipes'));
+    if (lsDone === null) {
+      lsDone = [];
+    }
+
+    lsDone.push(newRecipe);
+    localStorage.setItem('doneRecipes', JSON.stringify(lsDone));
+    history.push('/done-recipes');
+  }
+
   return (
     <CheckboxesContext.Provider value={ valor }>
       <div>
@@ -108,35 +131,19 @@ function RecipeInProgress() {
           src={ recipe[`str${capitalKey}Thumb`] }
         />
         <h1 data-testid="recipe-title">{recipe[`str${capitalKey}`]}</h1>
-        <button
-          type="button"
-          onClick={ () => {
-            console.log(key);
-            console.log(capitalKey);
-            console.log(id);
-            console.log(recipe);
-            console.log(lsAtual);
-            console.log(usedIngredients);
-          } }
-        >
-          Teste
-        </button>
-        <button
-          type="button"
-          data-testid="share-btn"
-          onClick={ toClipboard }
-        >
-          Share
-        </button>
+        <ShareButton type={ key } identificacao={ id } />
         <FavoriteButton receita={ recipe } capital={ capitalKey } />
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          onClick={ finishRecipe }
+          disabled={ !finish }
+        >
+          Finish
+        </button>
         <h3 data-testid="recipe-category">{recipe.strCategory}</h3>
-        {(recipe !== {})
-          ? (
-            <Checkboxes />
-          )
-          : ('')}
+        <Checkboxes />
         <p data-testid="instructions">{recipe.strInstructions}</p>
-        <InProgressFinishButton />
       </div>
     </CheckboxesContext.Provider>
   );

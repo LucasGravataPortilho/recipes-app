@@ -1,5 +1,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useLocation, Link } from 'react-router-dom/cjs/react-router-dom';
+import ShareButton from '../components/ShareButton';
+import FavoriteButton from '../components/FavoriteButton';
 import Recomendations from '../components/Recommendations';
 import '../components/Recommendations.css';
 import './RecipeDetails.css';
@@ -87,36 +89,18 @@ function RecipeDetails() {
     return ingredients;
   }
 
-  function getId() {
-    if (video === null || video === undefined) {
-      return video;
-    }
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = video.match(regExp);
-    const length = 11;
-
-    return match && match[2].length === length ? match[2] : null;
-  }
-
   function createVideo() {
-    const videoId = getId();
     const iframeMarkup = (
       <iframe
         title="youtube"
         data-testid="video"
         width="300"
         height="270"
-        src={ `//www.youtube.com/embed/${videoId}` }
+        src={ `//www.youtube.com/embed/${video}` }
       />
     );
 
     return iframeMarkup;
-  }
-
-  function toClipBoard({ target }) {
-    const link = `http://localhost:3000/${key}/${id}`;
-    navigator.clipboard.writeText(link);
-    target.innerHTML = 'Link copied!';
   }
 
   return (
@@ -146,19 +130,8 @@ function RecipeDetails() {
         </button>
       </Link>
       <div className="buttons">
-        <button
-          type="button"
-          data-testid="share-btn"
-          onClick={ toClipBoard }
-        >
-          Compartilhar
-        </button>
-        <button
-          type="button"
-          data-testid="favorite-btn"
-        >
-          Favoritar
-        </button>
+        <ShareButton type={ key } identificacao={ id } />
+        <FavoriteButton receita={ recipe } capital={ capitalKey } />
       </div>
     </div>
   );

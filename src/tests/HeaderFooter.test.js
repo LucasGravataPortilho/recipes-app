@@ -3,7 +3,7 @@ import { screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom/cjs/react-router-dom';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
-import renderWithRouterAndRedux from './renderWith';
+import { renderWithRouter } from './renderWith';
 
 const titulo = 'page-title';
 const emailId = 'email-input';
@@ -11,7 +11,7 @@ const passwordID = 'password-input';
 
 describe('Testa se as paginas corretas tem o Header', () => {
   it('Drinks', () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/drinks'] }>
         <App />
       </MemoryRouter>,
@@ -22,7 +22,7 @@ describe('Testa se as paginas corretas tem o Header', () => {
   });
 
   it('Meals', () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/meals'] }>
         <App />
       </MemoryRouter>,
@@ -38,7 +38,7 @@ describe('Testa se as paginas corretas tem o Header', () => {
   });
 
   it('Profile', () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/profile'] }>
         <App />
       </MemoryRouter>,
@@ -49,7 +49,7 @@ describe('Testa se as paginas corretas tem o Header', () => {
   });
 
   it('Done Recipes', () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/done-recipes'] }>
         <App />
       </MemoryRouter>,
@@ -62,7 +62,7 @@ describe('Testa se as paginas corretas tem o Header', () => {
 
 describe('Testa se as paginas corretas tem o Header', () => {
   it('Drinks', () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/drinks'] }>
         <App />
       </MemoryRouter>,
@@ -72,7 +72,7 @@ describe('Testa se as paginas corretas tem o Header', () => {
   });
 
   it('Meals', () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/meals'] }>
         <App />
       </MemoryRouter>,
@@ -82,7 +82,7 @@ describe('Testa se as paginas corretas tem o Header', () => {
   });
 
   it('Profile', () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/profile'] }>
         <App />
       </MemoryRouter>,
@@ -94,7 +94,7 @@ describe('Testa se as paginas corretas tem o Header', () => {
 
 describe('Testa se os botoes funcionam corretamente', () => {
   it('Profile, no Header', () => {
-    const { history } = renderWithRouterAndRedux(<App />);
+    const { history } = renderWithRouter(<App />);
 
     const email = screen.getByTestId(emailId);
     const senha = screen.getByTestId(passwordID);
@@ -112,7 +112,7 @@ describe('Testa se os botoes funcionam corretamente', () => {
   });
 
   it('Drinks no Footer', () => {
-    const { history } = renderWithRouterAndRedux(<App />);
+    const { history } = renderWithRouter(<App />);
 
     const email = screen.getByTestId(emailId);
     const senha = screen.getByTestId(passwordID);
@@ -133,7 +133,7 @@ describe('Testa se os botoes funcionam corretamente', () => {
   });
 
   it('Meals no Footer', () => {
-    const { history } = renderWithRouterAndRedux(<App />);
+    const { history } = renderWithRouter(<App />);
 
     const email = screen.getByTestId('email-input');
     const senha = screen.getByTestId('password-input');

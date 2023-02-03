@@ -3,13 +3,13 @@ import { screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom/cjs/react-router-dom';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
-import renderWithRouterAndRedux from './renderWith';
+import { renderWithRouter } from './renderWith';
 
 const titulo = 'page-title';
 
 describe('Testa a renderização da pagina de Drinks', () => {
   it('Testa se os cards são renderizados', async () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/drinks'] }>
         <App />
       </MemoryRouter>,
@@ -22,7 +22,7 @@ describe('Testa a renderização da pagina de Drinks', () => {
   });
 
   it('Testa se os botões de categoria funcionam', async () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/drinks'] }>
         <App />
       </MemoryRouter>,
@@ -39,7 +39,7 @@ describe('Testa a renderização da pagina de Drinks', () => {
 
 describe('Testa a renderização da pagina de Meals', () => {
   it('Testa se os cards são renderizados', async () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/meals'] }>
         <App />
       </MemoryRouter>,
@@ -52,7 +52,7 @@ describe('Testa a renderização da pagina de Meals', () => {
   });
 
   it('Testa se os botões de categoria funcionam', async () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/meals'] }>
         <App />
       </MemoryRouter>,

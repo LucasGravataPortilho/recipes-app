@@ -3,7 +3,7 @@ import { MemoryRouter } from 'react-router-dom/cjs/react-router-dom';
 import userEvent from '@testing-library/user-event';
 import { screen, waitFor } from '@testing-library/react';
 import App from '../App';
-import renderWithRouterAndRedux from './renderWith';
+import { renderWithRouter } from './renderWith';
 
 const recipeTitleId = 'recipe-title';
 const favButtonId = 'favorite-btn';
@@ -12,7 +12,7 @@ const burekURL = '/meals/53060/in-progress';
 
 describe('Testa as paginas de Receita in progress', () => {
   it('Drinks', async () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/drinks/17203/in-progress'] }>
         <App />
       </MemoryRouter>,
@@ -26,7 +26,7 @@ describe('Testa as paginas de Receita in progress', () => {
   });
 
   it('Meals', async () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ [burekURL] }>
         <App />
       </MemoryRouter>,
@@ -50,7 +50,7 @@ describe('Testa as paginas de Receita in progress', () => {
   });
 
   it('Meals - Finish Recipe', async () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ [burekURL] }>
         <App />
       </MemoryRouter>,
@@ -73,7 +73,7 @@ describe('Testa as paginas de Receita in progress', () => {
   });
 
   it('Drinks - Finish Recipe', async () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/drinks/17222/in-progress'] }>
         <App />
       </MemoryRouter>,
@@ -95,7 +95,7 @@ describe('Testa as paginas de Receita in progress', () => {
   });
 
   it('Meals - favorite button', async () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ [burekURL] }>
         <App />
       </MemoryRouter>,
@@ -111,7 +111,7 @@ describe('Testa as paginas de Receita in progress', () => {
 
 describe('Testa o favorite button', () => {
   it('Pagina Recipe Details', async () => {
-    renderWithRouterAndRedux(
+    renderWithRouter(
       <MemoryRouter initialEntries={ ['/drinks/17203'] }>
         <App />
       </MemoryRouter>,

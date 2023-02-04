@@ -4,7 +4,6 @@ import Checkboxes from '../components/Checkboxes';
 import FavoriteButton from '../components/FavoriteButton';
 import ShareButton from '../components/ShareButton';
 import CheckboxesContext from '../context/checkboxesContext';
-import './RecipeinProgress.css';
 
 function RecipeInProgress() {
   const [key, setKey] = useState();
@@ -72,12 +71,14 @@ function RecipeInProgress() {
   }, [location, requisicaoAPI]);
 
   const changeCheckbox = useCallback(({ target }) => {
-    const { value } = target;
+    const { value, parentNode } = target;
     let lista = usedIngredients;
 
     if (target.checked) {
+      parentNode.style.textDecoration = 'line-through solid rgb(0, 0, 0)';
       lista.push(value);
     } else {
+      parentNode.style.textDecoration = '';
       lista = lista.filter((e) => e !== value);
     }
 

@@ -1,8 +1,0 @@
-label {
-  display: flex;
-  flex-direction: row;
-}
-
-label:has( input:checked ) {
-  text-decoration: black solid line-through;
-}

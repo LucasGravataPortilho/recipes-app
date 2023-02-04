@@ -48,7 +48,7 @@ function RecipeInProgress() {
     if (path[1] === 'meals') {
       url = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${path[2]}`;
       setCapital('Meal');
-    } else if (path[1] === 'drinks') {
+    } else {
       url = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${path[2]}`;
       setCapital('Drink');
     }

@@ -43,9 +43,9 @@ function DoneRecipes() {
           <p data-testid={ `${i}-horizontal-done-date` }>
             {e.doneDate}
           </p>
-          {e.tags.map((t) => {
+          {e.tags.map((t, k) => {
             const tag = (
-              <p data-testid={ `${i}-${t}-horizontal-tag` }>
+              <p data-testid={ `${i}-${t}-horizontal-tag` } key={ k }>
                 {t}
               </p>
             );
@@ -89,7 +89,7 @@ function DoneRecipes() {
       <button value="drink" data-testid="filter-by-drink-btn" onClick={ filterType }>
         Drinks
       </button>
-      {(copied) ? (<p>Link copied!</p>) : ('')}
+      {(copied) ? (<p data-testid="link-copied">Link copied!</p>) : ('')}
       <div>
         {createCards()}
       </div>

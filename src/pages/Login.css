@@ -1,40 +1,91 @@
-.form-login {
+.login-page {
   display: flex;
+  width: 100vw;
+  height: 100vh;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 100vh;
+  background-color: rgb(215, 184, 127);
 }
 
-.form-login form {
+.first-box {
+   display: flex;
+  flex-direction:column;
+  align-items: center;
+  justify-content: center;
+  height: 380px;
+  width: 250px;
+  border-radius: 10px;
+  background-color: #ffbb66;
+  z-index: 1;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.137);
+}
+
+.first-box form {
   display: flex;
   flex-direction:column;
   align-items: center;
-  border: solid 2px black;
   justify-content: center;
-  height: 350px;
-  width: 300px;
-  border-radius: 40px;
+  border-radius: 15px;
+  width: 100%;
+  height: 100%
 }
 
-.form-login input {
+.first-box h1 {
+  color: white;
+  margin-bottom: 40px;
+  font-size: 30px;
+}
+
+.first-box input {
   border-radius: 8px;
   margin-bottom: 15px;
   width: 170px;
-  height: 25px;
-  border: 1px solid black;
+  height: 30px;
+  border: none;
+  text-align: center;
 }
 
-.form-login input::placeholder {
-   padding: 10px;
-}
-
-.form-login button {
-  margin-top: 15px;
+.first-box button {
+  margin-top: 25px;
   border-radius: 8px;
   width: 100px;
   height: 30px;
   font-weight:bold;
+  color: white;
+  border: none;
+  background-color: rgb(167, 235, 65);
+}
+
+.first-box button:disabled {
+
+  background-color: rgb(213, 213, 213)
 }
 
 
+.second-box {
+  display: flex;
+  flex-direction:column;
+  align-items: center;
+  background-color: #ebd1b0;
+  justify-content: center;
+  width:250px;
+  height: 320px;
+  border-radius: 10px;
+  margin-left: -20px;
+  z-index: 0;
+  overflow: hidden;
+  box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.137);
+}
+
+.second-box-image {
+  width: 90%;
+  position: relative;
+  left: 70px;
+}
+
+.second-box b {
+  color: white;
+  width: 180px;
+  margin-left: 20px;
+  margin-top: 120px;
+}
